@@ -5,7 +5,9 @@ class BoardGame(models.Model):
     """A board game and it's information."""
 
     name = models.CharField(max_length=150)
-    description = models.TextField(max_length=400)
+    description = models.TextField(
+        max_length=400, null=True, help_text="Enter a short description of the game"
+    )
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
@@ -15,5 +17,30 @@ class BoardGame(models.Model):
         return self.name
 
 
-# testest
-# moretest
+class Review(models.Model):
+    """A review of a board game."""
+
+    board_game = models.ForeignKey(BoardGame, on_delete=models.CASCADE)
+    my_review = models.TextField()
+
+    # Choices for choosing a rating for the game:
+    CHOICES = (
+        ("0", "0"),
+        (".5", ".5"),
+        ("1", "1"),
+        ("1.5", "1.5"),
+        ("2", "2"),
+        ("2.5", "2.5"),
+        ("3", "3"),
+        ("3.5", "3.5"),
+        ("4", "4"),
+        ("4.5", "4.5"),
+        ("5", "5"),
+    )
+
+    rating = models.CharField(max_length=3, choices=CHOICES, default="0")
+    date_added = models.DateField(auto_now_add=True)
+    date_modified = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.my_review[:50]}. . ."
