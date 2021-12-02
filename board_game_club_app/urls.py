@@ -9,4 +9,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     # Page that shows all board games
     path("boardgames/", views.boardgames, name="boardgames"),
+    # Detail page for a single board game
+    path("boardgames/<int:boardgame_id>/", views.boardgame, name="boardgame"),
 ]

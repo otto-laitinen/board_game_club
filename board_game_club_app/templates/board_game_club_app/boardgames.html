@@ -5,8 +5,10 @@
     <p>Board Games</p>
 
     <ul>
-        {% for board_game in boardgames %}
-            <li>{{ board_game }}</li>
+        {% for boardgame in boardgames %}
+            <li>
+                <a href="{% url 'board_game_club_app:boardgame' boardgame.id %}">{{ boardgame }}</a>
+            </li>
         {% empty %}
             <li>No board games have been added yet.</li>
         {% endfor %}
