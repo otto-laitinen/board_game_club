@@ -7,4 +7,6 @@ app_name = "board_game_club_app"
 urlpatterns = [
     # Home page
     path("", views.index, name="index"),
+    # Page that shows all board games
+    path("boardgames/", views.boardgames, name="boardgames"),
 ]
