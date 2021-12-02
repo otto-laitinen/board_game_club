@@ -1,0 +1,19 @@
+{% extends "board_game_club_app/base.html" %}
+
+{% block content %}
+
+    <p>Board Game: {{ boardgame }}</p>
+
+    <p>Reviews:</p>
+    <ul>
+    {% for review in reviews %}
+        <li>
+            <p>{{ review.date_added|date }}</p>
+            <p>{{ review.my_review|linebreaks }}</p>
+        </li>
+    {% empty %}
+        <li>There are no reviews for this board game yet.</li>
+    {% endfor %}
+    </ul>
+
+{% endblock content %}
