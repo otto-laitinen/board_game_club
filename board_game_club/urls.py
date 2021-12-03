@@ -18,6 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("users/", include("users.urls")),
     path("", include("board_game_club_app.urls")),
 
     # Page for adding a new board game
