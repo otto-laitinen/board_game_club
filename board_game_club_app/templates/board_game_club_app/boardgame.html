@@ -5,11 +5,18 @@
     <p>Board Game: {{ boardgame }}</p>
 
     <p>Reviews:</p>
+    <p>
+        <a href="{% url 'board_game_club_app:new_review' review.id %}">Add new review</a>
+    </p>
+        
     <ul>
     {% for review in reviews %}
         <li>
             <p>{{ review.date_added|date }}</p>
             <p>{{ review.my_review|linebreaks }}</p>
+            <p>
+                <a href="{% url 'board_game_club_app:edit_review' review.id %}">Edit review</a>
+            </p>
         </li>
     {% empty %}
         <li>There are no reviews for this board game yet.</li>

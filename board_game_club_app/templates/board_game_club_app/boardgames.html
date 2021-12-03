@@ -7,12 +7,13 @@
     <ul>
         {% for boardgame in boardgames %}
             <li>
-                <a href="{% url 'board_game_club_app:boardgame' boardgame.id %}">{{ boardgame }}</a>
+                <a href="{% url 'board_game_club_app:board_game' board_game.id %}">{{ board game }}</a>
             </li>
         {% empty %}
             <li>No board games have been added yet.</li>
         {% endfor %}
     </ul>
     
+    <a href="{% url 'board_game_club_app:new_board_game' %}">Add a new board game</a>
 
 {% endblock content %}
