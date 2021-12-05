@@ -1,7 +1,4 @@
-# Eyal was here - test
-
 from django.db import models
-
 
 class BoardGame(models.Model):
     """A board game and it's information."""
@@ -23,7 +20,7 @@ class Review(models.Model):
     """A review of a board game."""
 
     boardgame = models.ForeignKey(BoardGame, on_delete=models.CASCADE)
-    my_review = models.TextField()
+    my_review = models.TextField(max_length=250)
 
     # Choices for choosing a rating for the game:
     CHOICES = (
