@@ -20,6 +20,4 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("board_game_club_app.urls")),
 
-    # Page for adding a new board game
-path('new_board_game/', views.new_board_game, name = 'new_board_game'),
 ]
