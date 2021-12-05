@@ -2,20 +2,17 @@ from django import forms
 
 from .models import BoardGame, Review
 
+
 class BoardGameForm(forms.ModelForm):
     class Meta:
         model = BoardGame
-        fields = ['name', 'description']
-        labels = {} #'text': ''
+        fields = ["name", "description"]
+        labels = {"name": "Name of the board game", "description": "Description"}
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = []
-        labels = {}#'text': 'Review:'
-        widgets = {}#'text': forms.Textarea(attrs={'cols': 250})
-
-        # Probably need to fill the brackets with meaningful vlues 
-
-        
-
+        fields = ["my_review", "rating"]
+        labels = {"my_review": "Review", "rating": "Rating"}
+        widgets = {"my_review": forms.Textarea(attrs={"cols": 80})}
