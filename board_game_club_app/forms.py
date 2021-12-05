@@ -5,13 +5,17 @@ from .models import BoardGame, Review
 class BoardGameForm(forms.ModelForm):
     class Meta:
         model = BoardGame
-        fields = ['text']
-        labels = {'text': ''}
+        fields = []#'text'
+        labels = {}#'text': ''
 
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['text']
-        labels = {'text': 'Review:'}
-        widgets = {'text': forms.Textarea(attrs={'cols': 250})}
+        fields = []#'text'
+        labels = {}#'text': 'Review:'
+        widgets = {}#'text': forms.Textarea(attrs={'cols': 250})
+
+        # Probably need to fill the brackets with meaningful vlues 
+
+        
 
