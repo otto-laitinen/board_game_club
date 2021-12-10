@@ -11,6 +11,7 @@ def index(request):
 @login_required
 def boardgames(request):
     """Shows all board games."""
+    boardgames = BoardGame.objects.filter(owner=request.user).order_by("name") #'date_added' not "name" p.550
     # Orders the board games by name (alphabetically):
     boardgames = BoardGame.objects.order_by("name")
     context = {"boardgames": boardgames}
