@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import BoardGame, Review
 from .forms import BoardGameForm, ReviewForm
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 
 def index(request):
@@ -21,6 +22,9 @@ def boardgames(request):
 def boardgame(request, boardgame_id):
     """Shows a single board game and its information."""
     boardgame = BoardGame.objects.get(id = boardgame_id)
+    # Make sure the topic belongs to the current user.
+    if boardgame.owner != request.user:
+        raise Http404
     reviews = boardgame.review_set.order_by("-date_added")
     context = {"boardgame": boardgame, "reviews": reviews}
     return render(request, "board_game_club_app/boardgame.html", context)
@@ -35,6 +39,7 @@ def new_board_game(request):
         # POST data submitted; process data.
         form = BoardGameForm(data = request.POST)
         if form.is_valid():
+            
             form.save()
             return redirect('board_game_club_app:boardgames')
     
@@ -67,6 +72,9 @@ def edit_review(request, review_id):
     """Edit an existing review."""
     review = Review.objects.get(id = review_id)
     boardgame = review.boardgame
+    if boardgame.owner != request.user:
+        raise Http404
+
 
     if request.method != 'POST':
         # Initial request; pre-fill form with the current review.
