@@ -39,7 +39,9 @@ def new_board_game(request):
         # POST data submitted; process data.
         form = BoardGameForm(data = request.POST)
         if form.is_valid():
-            
+            new_board_game = form.save(commit=False)
+            new_board_game.owner = request.user
+            new_board_game.save()
             form.save()
             return redirect('board_game_club_app:boardgames')
     
