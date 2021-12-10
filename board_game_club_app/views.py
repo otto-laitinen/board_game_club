@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from .models import BoardGame, Review
 from .forms import BoardGameForm, ReviewForm
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     """Board Game Club home page"""
     return render(request, "board_game_club_app/index.html")
 
+@login_required
 def boardgames(request):
     """Shows all board games."""
     # Orders the board games by name (alphabetically):
@@ -13,6 +16,7 @@ def boardgames(request):
     context = {"boardgames": boardgames}
     return render(request, "board_game_club_app/boardgames.html", context)
 
+@login_required
 def boardgame(request, boardgame_id):
     """Shows a single board game and its information."""
     boardgame = BoardGame.objects.get(id = boardgame_id)
@@ -20,6 +24,7 @@ def boardgame(request, boardgame_id):
     context = {"boardgame": boardgame, "reviews": reviews}
     return render(request, "board_game_club_app/boardgame.html", context)
 
+@login_required
 def new_board_game(request):
     """Add a new board game."""
     if request.method != 'POST':
@@ -36,6 +41,7 @@ def new_board_game(request):
     context = {'form': form}
     return render(request, 'board_game_club_app/new_board_game.html', context)
 
+@login_required
 def new_review(request, boardgame_id):
     """Add a new review for a particular board game."""
     boardgame = BoardGame.objects.get(id = boardgame_id)
@@ -55,6 +61,7 @@ def new_review(request, boardgame_id):
     context = {'boardgame': boardgame, 'form': form}
     return render(request, 'board_game_club_app/new_review.html', context)
 
+@login_required
 def edit_review(request, review_id):
     """Edit an existing review."""
     review = Review.objects.get(id = review_id)
