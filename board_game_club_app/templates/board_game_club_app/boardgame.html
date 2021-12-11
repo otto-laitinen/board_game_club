@@ -1,28 +1,25 @@
-{% extends "board_game_club_app/base.html" %}
+{% extends 'board_game_club_app/base.html' %}
+{% block page_header %}
+    <h3>{{ boardgame }}</h3>
+{% endblock page_header %}
 
 {% block content %}
-
-    <p>BoardGame: {{ Boardgame }}</p>
-
-    <p>Reviews:</p>
     <p>
         <a href="{% url 'board_game_club_app:new_review' boardgame.id %}">Add new review</a>
     </p>
-        
-    <ul>
+
     {% for review in reviews %}
-        <li>
-            <p>{{ review.date_added|date }}</p>
-            <p>{{ review.my_review|linebreaks }}</p>
-            <p>
-                <a href="{% url 'board_game_club_app:edit_review' review.id %}">Edit review</a>
-            </p>
-        </li>
+        <div class="card mb-3">
+            <h4 class="card-header">
+                {{ review.date_added|date:'M d, Y H:i' }}
+                <small><a href="{% url 'board_game_club_app:edit_review' review.id %}">
+                    edit review</a></small>
+            </h4>
+            <div class="card-body">
+                {{ review.text|linebreaks }}
+            </div>
+        </div>
     {% empty %}
-        <li>There are no reviews for this board game yet.</li>
+        <p>There are no reviews for this board game yet.</p>
     {% endfor %}
-    </ul>
-
 {% endblock content %}
-
-###

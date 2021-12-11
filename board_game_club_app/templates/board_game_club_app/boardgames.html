@@ -1,19 +1,20 @@
 {% extends "board_game_club_app/base.html" %}
 
+{% block page_header %}
+    <h1>Board Games</h1>
+{% endblock page_header %}
+
 {% block content %}
-
-    <p>Board Games</p>
-
     <ul>
         {% for boardgame in boardgames %}
-            <li>
+            <li><h3>
                 <a href="{% url 'board_game_club_app:boardgame' boardgame.id %}">{{ boardgame }}</a>
-            </li>
+            </h3></li>
         {% empty %}
-            <li>No board games have been added yet.</li>
+            <li><h3>No board games have been added yet.</h3></li>
         {% endfor %}
     </ul>
     
-    <a href="{% url 'board_game_club_app:new_board_game' %}">Add a new board game</a>
+    <h3><a href="{% url 'board_game_club_app:new_board_game' %}">Add a new board game</a></h3>
 
 {% endblock content %}

@@ -1,5 +1,12 @@
 {% extends "board_game_club_app/base.html" %}
 
-{% block content %}
-    <p>Here you can lend board games.</p>
-{% endblock content %}
+{% block page_header %}
+    <div class="jumbotron">
+        <h1 class="display-3">Enjoy the board games club app.</h1>
+        <p class="lead">Borrow board games, and keep a list of the
+            boarg games you played. Whenever you play a new board game, write a review about it.</p>
+            
+        <a class="btn btn-lg btn-primary" href="{% url 'users:register' %}"
+            role="button">Register &raquo;</a>
+    </div>
+{% endblock page_header %}
