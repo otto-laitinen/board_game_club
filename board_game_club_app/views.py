@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import BoardGame, Review
-from .forms import BoardGameForm, ReviewForm
+from .forms import BoardGameForm, ReviewForm, BorrowForm
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
@@ -9,27 +9,26 @@ def index(request):
     """Board Game Club home page"""
     return render(request, "board_game_club_app/index.html")
 
-
 @login_required
 def boardgames(request):
     """Shows all board games."""
     # Orders the board games alphabetically (for clarity):
-    # **Note: We don't want to restrict this, we want all the logged in users to see all the games,
-    # not just the ones they added themselves.**
     boardgames = BoardGame.objects.order_by("name")
     context = {"boardgames": boardgames}
     return render(request, "board_game_club_app/boardgames.html", context)
+
 
 
 @login_required
 def boardgame(request, boardgame_id):
     """Shows a single board game and its information."""
     boardgame = BoardGame.objects.get(id=boardgame_id)
+    description = BoardGame.description
     # We don't want to raise an error here. The user is only requesting to see a specific boardgame.
     # if boardgame.owner != request.user:
     #    raise Http404
     reviews = boardgame.review_set.order_by("-date_added")
-    context = {"boardgame": boardgame, "reviews": reviews}
+    context = {"boardgame": boardgame, "reviews": reviews, "description": description}
     return render(request, "board_game_club_app/boardgame.html", context)
 
 
@@ -94,3 +93,27 @@ def edit_review(request, review_id):
             return redirect("board_game_club_app:boardgame", boardgame_id=boardgame.id)
     context = {"review": review, "boardgame": boardgame, "form": form}
     return render(request, "board_game_club_app/edit_review.html", context)
+
+    
+######test
+@login_required
+def borrow_game(request, boardgame_id):
+    """Allow the user to borrow the game."""
+    boardgame = BoardGame.objects.get(id=boardgame_id)
+
+    if request.method != "POST":
+        # No data submitted; create a blank form.
+        form = BorrowForm()
+    else:
+        # POST data submitted; process data.
+        form = BorrowForm(data=request.POST)
+        if form.is_valid():
+            #available = BoardGame.available
+
+            #borrow_game = form.save(commit=False)
+            #borrow_game.boardgame = boardgame
+            #borrow_game.save()
+            return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
+    #Display a blank or invalid form.
+    context = {"boardgame": boardgame, "form": form}
+    return render(request, "board_game_club_app/borrow_game.html", context)

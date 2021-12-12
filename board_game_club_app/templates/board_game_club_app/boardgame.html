@@ -1,13 +1,25 @@
 {% extends 'board_game_club_app/base.html' %}
 {% block page_header %}
-    <h3>{{ boardgame }}</h3>
 
+    <h3>{{ boardgame }}</h3>
+    
 {% endblock page_header %}
 
 {% block content %}
     <p>
         <a href="{% url 'board_game_club_app:new_review' boardgame.id %}">Add new review</a>
     </p>
+
+    <p>
+        <a href="{% url 'board_game_club_app:borrow_game' boardgame.id %}">Borrow the game</a>
+    </p>
+
+    {{ boardgame.description|linebreaks }}
+
+    <p>Available:</p>  
+    
+    {{ boardgame.available|linebreaks }}
+   
 
     {% for review in reviews %}
         <div class="card mb-3">

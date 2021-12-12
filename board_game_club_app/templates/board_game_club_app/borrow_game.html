@@ -1,0 +1,14 @@
+{% extends "board_game_club_app/base.html" %}
+
+{% block content %}
+
+    <p><a href="{% url 'board_game_club_app:boardgame' boardgame.id %}">{{ boardgame }}</a></p>
+
+    <p>Borrow the board game by unticking the available box, and click Borrow board game</p>
+    <form action="{% url 'board_game_club_app:borrow_game' boardgame.id %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name='submit'>Borrow board game</button>
+    </form>
+
+{% endblock content %}
