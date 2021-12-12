@@ -5,7 +5,7 @@ from .models import BoardGame, Review
 class BoardGameForm(forms.ModelForm):
     class Meta:
         model = BoardGame
-        fields = ["name", "description"]
+        fields = ["name", "description", "available"]
         labels = {"name": "Name of the board game", "description": "Description"}
 
 
