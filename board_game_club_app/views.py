@@ -45,7 +45,7 @@ def new_board_game(request):
             new_board_game.owner = request.user
             new_board_game.save()
             form.save()
-            return redirect("board_game_club_app:boardgame")
+            return redirect("board_game_club_app:boardgames")
 
     # Display a blank or invalid form.
     context = {"form": form}

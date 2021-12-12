@@ -23,13 +23,12 @@
         <div class="card mb-3">
             <h4 class="card-header">
                 {{ review.date_added|date}}
-                {{ review.my_review}}
-                {{ review.rating}}
                 <small><a href="{% url 'board_game_club_app:edit_review' review.id %}">
                     edit review</a></small>
             </h4>
             <div class="card-body">
-                {{ review.text|linebreaks }}
+                {{ review.my_review|linebreaks }}
+                <!---THE RATING COULD ALSO BE ADDED SOMEWHERE HERE-->
             </div>
         </div>
     {% empty %}
