@@ -9,6 +9,7 @@ def index(request):
     """Board Game Club home page"""
     return render(request, "board_game_club_app/index.html")
 
+
 @login_required
 def boardgames(request):
     """Shows all board games."""
@@ -16,7 +17,6 @@ def boardgames(request):
     boardgames = BoardGame.objects.order_by("name")
     context = {"boardgames": boardgames}
     return render(request, "board_game_club_app/boardgames.html", context)
-
 
 
 @login_required
@@ -94,26 +94,27 @@ def edit_review(request, review_id):
     context = {"review": review, "boardgame": boardgame, "form": form}
     return render(request, "board_game_club_app/edit_review.html", context)
 
-    
-######test
+
 @login_required
 def borrow_game(request, boardgame_id):
     """Allow the user to borrow the game."""
     boardgame = BoardGame.objects.get(id=boardgame_id)
+    BoardGame.available = BoardGame.objects.get(id=boardgame_id)
 
     if request.method != "POST":
         # No data submitted; create a blank form.
-        form = BorrowForm()
+        form = BorrowForm(instance=BoardGame.available)
     else:
         # POST data submitted; process data.
-        form = BorrowForm(data=request.POST)
+        form = BorrowForm(instance=BoardGame.available, data=request.post)
         if form.is_valid():
-            #available = BoardGame.available
+            BoardGame.available = False
+
 
             #borrow_game = form.save(commit=False)
             #borrow_game.boardgame = boardgame
-            #borrow_game.save()
+            borrow_game.save()
             return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
     #Display a blank or invalid form.
-    context = {"boardgame": boardgame, "form": form}
+    context = {"boardgame": boardgame, "form": form, "available": BoardGame.available}
     return render(request, "board_game_club_app/borrow_game.html", context)
