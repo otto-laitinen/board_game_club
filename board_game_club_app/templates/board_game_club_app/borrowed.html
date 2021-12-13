@@ -1,0 +1,10 @@
+{% extends "board_game_club_app/base.html" %}
+
+{% block content %}
+
+    <p><a href="{% url 'board_game_club_app:boardgame' boardgame.id %}">{{ boardgame }}</a></p>
+
+    <p>You borrowed the game succesfully!</p>
+
+
+{% endblock content %}

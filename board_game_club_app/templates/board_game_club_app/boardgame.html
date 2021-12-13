@@ -16,23 +16,28 @@
 
     {{ boardgame.description|linebreaks }}
 
-    <p>Available:</p>  
+    <p>Available:</p> 
     
     {{ boardgame.available|linebreaks }}
-   
+
+    <p>Reviews:</p>  
 
     {% for review in reviews %}
         <div class="card mb-3">
             <h4 class="card-header">
                 {{ review.date_added|date}}
                 <small><a href="{% url 'board_game_club_app:edit_review' review.id %}">
-                    edit review</a></small>
+                    Edit review</a></small>
             </h4>
             <div class="card-body">
                 {{ review.my_review|linebreaks }}
                 <!---THE RATING COULD ALSO BE ADDED SOMEWHERE HERE-->
+                <p>Rating (from 0-5):</p> 
+                {{ review.rating|linebreaks }}
             </div>
         </div>
+
+
     {% empty %}
         <p>There are no reviews for this board game yet.</p>
     {% endfor %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import BoardGame, Review
-from .forms import BoardGameForm, ReviewForm, BorrowForm
+from .forms import BoardGameForm, ReviewForm, BorrowForm, BorrowedForm
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
@@ -9,6 +9,7 @@ def index(request):
     """Board Game Club home page"""
     return render(request, "board_game_club_app/index.html")
 
+
 @login_required
 def boardgames(request):
     """Shows all board games."""
@@ -16,7 +17,6 @@ def boardgames(request):
     boardgames = BoardGame.objects.order_by("name")
     context = {"boardgames": boardgames}
     return render(request, "board_game_club_app/boardgames.html", context)
-
 
 
 @login_required
@@ -79,8 +79,10 @@ def edit_review(request, review_id):
     """Edit an existing review."""
     review = Review.objects.get(id=review_id)
     boardgame = review.boardgame
-    if boardgame.owner != request.user:
-        raise Http404
+
+    #### This line cause the error in edit_review, when the review is not of a board game the user has created. ####
+    #if boardgame.owner != request.user:
+    #    raise Http404
 
     if request.method != "POST":
         # Initial request; pre-fill form with the current review.
@@ -94,26 +96,33 @@ def edit_review(request, review_id):
     context = {"review": review, "boardgame": boardgame, "form": form}
     return render(request, "board_game_club_app/edit_review.html", context)
 
-    
-######test
+
 @login_required
 def borrow_game(request, boardgame_id):
     """Allow the user to borrow the game."""
+#we get the entry object that the user wants to edit and the topic associated with this entry
     boardgame = BoardGame.objects.get(id=boardgame_id)
-
+    #available = BoardGame.available
     if request.method != "POST":
         # No data submitted; create a blank form.
         form = BorrowForm()
     else:
         # POST data submitted; process data.
-        form = BorrowForm(data=request.POST)
-        if form.is_valid():
-            #available = BoardGame.available
+        form = BorrowForm() ## form = BorrowForm(something that will save the data of available)
+        BoardGame.available = False
+        #if form.is_valid():
+        #    BoardGame.available = False
+        #    form.save()
+        #if form.is_valid():
+        #    borrow_game = form.save(commit=False)
+         #   borrow_game.boardgame = boardgame
+          #  borrow_game.save()
+           # return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
 
-            #borrow_game = form.save(commit=False)
-            #borrow_game.boardgame = boardgame
-            #borrow_game.save()
-            return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
+        #return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
+        context = {"available":BoardGame.available, "boardgame": boardgame, "form": form} 
+        return render(request, "board_game_club_app/borrowed.html", context)
+
     #Display a blank or invalid form.
-    context = {"boardgame": boardgame, "form": form}
+    context = {"available":BoardGame.available, "boardgame": boardgame, "form": form} 
     return render(request, "board_game_club_app/borrow_game.html", context)
