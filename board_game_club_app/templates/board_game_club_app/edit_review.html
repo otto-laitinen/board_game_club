@@ -3,8 +3,8 @@
 {% block content %}
 
     <p><a href="{% url 'board_game_club_app:boardgame' boardgame.id %}">{{ boardgame }}</a></p>
+    
     <p>Edit review:</p>
-
     <form action="{% url 'board_game_club_app:edit_review' review.id %}" method='post'>
         {% csrf_token %}
         {{ form.as_p }}

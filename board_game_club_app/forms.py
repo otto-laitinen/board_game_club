@@ -22,3 +22,10 @@ class BorrowForm(forms.ModelForm):
         model = BoardGame
         fields = ["available"]
         labels = {"available": "Available"}
+
+
+class BorrowedForm(forms.ModelForm):
+    class Meta:
+        model = BoardGame
+        fields = ["name"]
+        labels = {"name": "Name of the board game"}

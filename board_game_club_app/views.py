@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import BoardGame, Review
-from .forms import BoardGameForm, ReviewForm, BorrowForm
+from .forms import BoardGameForm, ReviewForm, BorrowForm, BorrowedForm
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
@@ -102,24 +102,27 @@ def borrow_game(request, boardgame_id):
     """Allow the user to borrow the game."""
 #we get the entry object that the user wants to edit and the topic associated with this entry
     boardgame = BoardGame.objects.get(id=boardgame_id)
-
-    #BoardGame.available = BoardGame.objects.get(id=boardgame_id)
-
+    available = BoardGame.available
     if request.method != "POST":
         # No data submitted; create a blank form.
-        form = BorrowForm()#instance=BoardGame.available) /  form = BorrowForm(instance=boardgame)
-
+        form = BorrowForm()
     else:
         # POST data submitted; process data.
-        form = BoardGameForm(instance=boardgame, data=request.post)#instance=BoardGame.available, data=request.post
-        #form = BorrowForm(instance=BoardGame.available, data=request.post)
+        form = BorrowForm() ## form = BorrowForm(something that will save the data of available)
+        available = False
         if form.is_valid():
+            available = False
             form.save()
-            #BoardGame.available = False
-            #borrow_game = form.save(commit=False)
-            #borrow_game.boardgame = boardgame
-            #borrow_game.save()
-            return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
+        #if form.is_valid():
+        #    borrow_game = form.save(commit=False)
+         #   borrow_game.boardgame = boardgame
+          #  borrow_game.save()
+           # return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
+
+        #return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
+        context = {"available":available, "boardgame": boardgame, "form": form} 
+        return render(request, "board_game_club_app/borrowed.html", context)
+
     #Display a blank or invalid form.
-    context = {"boardgame": boardgame, "form": form} #, "available": BoardGame.available
-    return render(request, "board_game_club_app/borrow_game.html", context) #return render(request, "board_game_club_app/borrow_game.html", context)
+    context = {"available":available, "boardgame": boardgame, "form": form} 
+    return render(request, "board_game_club_app/borrow_game.html", context)

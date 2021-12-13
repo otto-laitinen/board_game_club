@@ -16,7 +16,7 @@
 
     {{ boardgame.description|linebreaks }}
 
-    <p>Available:</p>  
+    <p>Available:</p> 
     
     {{ boardgame.available|linebreaks }}
 
@@ -36,6 +36,8 @@
                 {{ review.rating|linebreaks }}
             </div>
         </div>
+
+
     {% empty %}
         <p>There are no reviews for this board game yet.</p>
     {% endfor %}
