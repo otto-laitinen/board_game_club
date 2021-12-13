@@ -102,17 +102,17 @@ def borrow_game(request, boardgame_id):
     """Allow the user to borrow the game."""
 #we get the entry object that the user wants to edit and the topic associated with this entry
     boardgame = BoardGame.objects.get(id=boardgame_id)
-    available = BoardGame.available
+    #available = BoardGame.available
     if request.method != "POST":
         # No data submitted; create a blank form.
         form = BorrowForm()
     else:
         # POST data submitted; process data.
         form = BorrowForm() ## form = BorrowForm(something that will save the data of available)
-        available = False
-        if form.is_valid():
-            available = False
-            form.save()
+        BoardGame.available = False
+        #if form.is_valid():
+        #    BoardGame.available = False
+        #    form.save()
         #if form.is_valid():
         #    borrow_game = form.save(commit=False)
          #   borrow_game.boardgame = boardgame
@@ -120,9 +120,9 @@ def borrow_game(request, boardgame_id):
            # return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
 
         #return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
-        context = {"available":available, "boardgame": boardgame, "form": form} 
+        context = {"available":BoardGame.available, "boardgame": boardgame, "form": form} 
         return render(request, "board_game_club_app/borrowed.html", context)
 
     #Display a blank or invalid form.
-    context = {"available":available, "boardgame": boardgame, "form": form} 
+    context = {"available":BoardGame.available, "boardgame": boardgame, "form": form} 
     return render(request, "board_game_club_app/borrow_game.html", context)
