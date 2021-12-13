@@ -79,8 +79,10 @@ def edit_review(request, review_id):
     """Edit an existing review."""
     review = Review.objects.get(id=review_id)
     boardgame = review.boardgame
-    if boardgame.owner != request.user:
-        raise Http404
+
+    #### This line cause the error in edit_review, when the review is not of a board game the user has created. ####
+    #if boardgame.owner != request.user:
+    #    raise Http404
 
     if request.method != "POST":
         # Initial request; pre-fill form with the current review.
@@ -98,23 +100,26 @@ def edit_review(request, review_id):
 @login_required
 def borrow_game(request, boardgame_id):
     """Allow the user to borrow the game."""
+#we get the entry object that the user wants to edit and the topic associated with this entry
     boardgame = BoardGame.objects.get(id=boardgame_id)
-    BoardGame.available = BoardGame.objects.get(id=boardgame_id)
+
+    #BoardGame.available = BoardGame.objects.get(id=boardgame_id)
 
     if request.method != "POST":
         # No data submitted; create a blank form.
-        form = BorrowForm(instance=BoardGame.available)
+        form = BorrowForm()#instance=BoardGame.available) /  form = BorrowForm(instance=boardgame)
+
     else:
         # POST data submitted; process data.
-        form = BorrowForm(instance=BoardGame.available, data=request.post)
+        form = BoardGameForm(instance=boardgame, data=request.post)#instance=BoardGame.available, data=request.post
+        #form = BorrowForm(instance=BoardGame.available, data=request.post)
         if form.is_valid():
-            BoardGame.available = False
-
-
+            form.save()
+            #BoardGame.available = False
             #borrow_game = form.save(commit=False)
             #borrow_game.boardgame = boardgame
-            borrow_game.save()
+            #borrow_game.save()
             return redirect("board_game_club_app:boardgame", boardgame_id=boardgame_id)
     #Display a blank or invalid form.
-    context = {"boardgame": boardgame, "form": form, "available": BoardGame.available}
-    return render(request, "board_game_club_app/borrow_game.html", context)
+    context = {"boardgame": boardgame, "form": form} #, "available": BoardGame.available
+    return render(request, "board_game_club_app/borrow_game.html", context) #return render(request, "board_game_club_app/borrow_game.html", context)
