@@ -16,7 +16,7 @@ class ReviewForm(forms.ModelForm):
         labels = {"my_review": "", "rating": "Rating"}
         widgets = {"my_review": forms.Textarea(attrs={"cols": 80})}
 
-
+##We did not use this class
 class BorrowForm(forms.ModelForm):
     class Meta:
         model = BoardGame
@@ -28,4 +28,4 @@ class BorrowedForm(forms.ModelForm):
     class Meta:
         model = BoardGame
         fields = ["name"]
-        labels = {"name": "Name of the board game"}
+        labels = {"name": "Name"}

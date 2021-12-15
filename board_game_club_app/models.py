@@ -12,7 +12,7 @@ class BoardGame(models.Model):
     date_modified = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    
 
     def __str__(self):
         """Returns a string representation of the model."""
@@ -38,6 +38,7 @@ class Review(models.Model):
     rating = models.CharField(max_length=3, choices=CHOICES, default="0")
     date_added = models.DateField(auto_now_add=True)
     date_modified = models.DateField(auto_now_add=True)
+    
 
     def __str__(self):
         return f"{self.my_review[:50]}. . ."
