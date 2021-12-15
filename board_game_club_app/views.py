@@ -104,10 +104,10 @@ def borrow_game(request, boardgame_id):
     boardgame = BoardGame.objects.get(id=boardgame_id)
     if request.method != "POST":
         # No data submitted; create a blank form.
-        form = BorrowForm()
+        form = BorrowedForm()
     else:
         # POST data submitted; process data.
-        form = BorrowForm(data=request.post) ## form = BorrowForm(something that will save the data of available)
+        form = BorrowedForm(data=request.post) ## form = BorrowForm(something that will save the data of available)
         BoardGame.available = False
         if form.is_valid():
             BoardGame.available = False
